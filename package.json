@@ -1,0 +1,29 @@
+{
+  "name": "login_setup",
+  "version": "1.0.0",
+  "description": "This is a practice login setup.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finnnilsen90/login_setup.git"
+  },
+  "author": "Finn Nilsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/finnnilsen90/login_setup/issues"
+  },
+  "homepage": "https://github.com/finnnilsen90/login_setup#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.0",
+    "sequelize": "^4.24.0"
+  }
+}
