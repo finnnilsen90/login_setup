@@ -1,8 +1,27 @@
 var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt');
 
+const { Client } = require('pg');
+
+var database_url = 'postgres://yyssbjsxbooeoi:6001391d88054adc9ae074c1d3cd68680baba4712ae7111911e499ee965795fe@ec2-50-19-113-219.compute-1.amazonaws.com:5432/dann15kue1cruh?ssl=true'
+
+const client = new Client({
+  connectionString: process.env.database_url,
+  ssl: true,
+});
+
+
+
 // create a sequelize instance with our local postgres database information.
-var sequelize = new Sequelize('postgres://yyssbjsxbooeoi:6001391d88054adc9ae074c1d3cd68680baba4712ae7111911e499ee965795fe@ec2-50-19-113-219.compute-1.amazonaws.com:5432/dann15kue1cruh?ssl=true');
+var sequelize = new Sequelize('postgres://yyssbjsxbooeoi:6001391d88054adc9ae074c1d3cd68680baba4712ae7111911e499ee965795fe@ec2-50-19-113-219.compute-1.amazonaws.com:5432/dann15kue1cruh', {  
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+        "ssl": {
+            "require": true
+        }
+    }    
+});
 
 // setup User model and its fields.
 var User = sequelize.define('users', {
