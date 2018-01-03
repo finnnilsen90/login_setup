@@ -1,14 +1,14 @@
 var Sequelize = require('sequelize');
 var bcrypt = require('bcrypt');
 
-const { Client } = require('pg');
+// const { Client } = require('pg');
 
-var database_url = 'postgres://yyssbjsxbooeoi:6001391d88054adc9ae074c1d3cd68680baba4712ae7111911e499ee965795fe@ec2-50-19-113-219.compute-1.amazonaws.com:5432/dann15kue1cruh?ssl=true'
+// var database_url = 'postgres://yyssbjsxbooeoi:6001391d88054adc9ae074c1d3cd68680baba4712ae7111911e499ee965795fe@ec2-50-19-113-219.compute-1.amazonaws.com:5432/dann15kue1cruh?ssl=true'
 
-const client = new Client({
-  connectionString: process.env.database_url,
-  ssl: true,
-});
+// const client = new Client({
+//   connectionString: process.env.database_url,
+//   ssl: true,
+// });
 
 
 
@@ -39,19 +39,18 @@ var User = sequelize.define('users', {
         type: Sequelize.STRING,
         allowNull: false
     }
-}, {
-    hooks: {
-      beforeCreate: (user) => {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
-      }
-    },
-    instanceMethods: {
-      validPassword: function(password) {
-        return bcrypt.compareSync(password, this.password);
-      }
-    }    
+}); 
+
+User.hook('beforeCreate', (user) => {
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(user.password, salt);
 });
+    
+User.prototype.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
+    
+
 
 // create all the defined tables in the specified database.
 sequelize.sync()
