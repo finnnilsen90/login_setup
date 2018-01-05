@@ -17,28 +17,17 @@
   },
   "homepage": "https://github.com/finnnilsen90/login_setup#readme",
   "dependencies": {
-<<<<<<< HEAD
-=======
     "basic-auth": "^2.0.0",
     "bcrypt": "^1.0.3",
->>>>>>> 4fe33cf0fee2c4743073cfd75c58c6c3373be2c4
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "morgan": "^1.9.0",
-<<<<<<< HEAD
-    "pg": "7.4.0",
-    "sequelize": "^4.24.0"
-  },
-  "devDependencies": {
-    "bcrypt": "^1.0.2"
-=======
     "path": "^0.12.7",
     "pg": "7.4.0"
   },
   "devDependencies": {
     "sequelize": "^4.28.6"
->>>>>>> 4fe33cf0fee2c4743073cfd75c58c6c3373be2c4
   }
 }
