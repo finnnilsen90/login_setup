@@ -5,14 +5,20 @@ var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./models/user');
 
+var path = require('path');
+
 // invoke an instance of express application.
 var app = express();
+
+app.use(express.static(path.join(__dirname + '/public_pause/javascript')));
 
 // set our application port
 app.set('port', 9000);
 
 // set morgan to log info about our requests for development use.
 app.use(morgan('dev'));
+
+app.use(bodyParser.json());
 
 // initialize body-parser to parse incoming parameters requests to req.body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,7 +67,7 @@ app.get('/', sessionChecker, (req, res) => {
 // route for user signup
 app.route('/signup')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/signup.html');
+        res.sendFile(__dirname + '/public_pause/signup.html');
     })
     .post((req, res) => {
         User.create({
@@ -74,6 +80,7 @@ app.route('/signup')
             res.redirect('/dashboard');
         })
         .catch(error => {
+            console.log(error)
             res.redirect('/signup');
         });
     });
@@ -82,7 +89,7 @@ app.route('/signup')
 // route for user Login
 app.route('/login')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/login.html');
+        res.sendFile(__dirname + '/public_pause/login.html');
     })
     .post((req, res) => {
         var username = req.body.username,
@@ -93,7 +100,7 @@ app.route('/login')
                 console.log('incorect username')
                 res.redirect('/login');
             } else if (!user.validPassword(password)) {
-                console.log('incorect password')
+                console.log('incorect password: ',password)
                 res.redirect('/login');
             } else {
                 req.session.user = user.dataValues;
@@ -105,8 +112,12 @@ app.route('/login')
 
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
+    console.log(req.session.user)
     if (req.session.user && req.cookies.user_sid) {
-        res.sendFile(__dirname + '/public/dashboard.html');
+        console.log('path ', req.session.cookie.path)
+        console.log('test ',req.session.user)
+        console.log('test ',req.cookies.user_sid)
+        res.sendFile(__dirname + '/public_pause/about.html');
     } else {
         res.redirect('/login');
     }
