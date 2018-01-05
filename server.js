@@ -10,7 +10,7 @@ var path = require('path');
 // invoke an instance of express application.
 var app = express();
 
-app.use('/', express.static(path.join(__dirname + '/public_pause')));
+app.use(express.static(path.join(__dirname + '/public_pause/javascript')));
 
 // set our application port
 app.set('port', 9000);
@@ -117,7 +117,7 @@ app.get('/dashboard', (req, res) => {
         console.log('path ', req.session.cookie.path)
         console.log('test ',req.session.user)
         console.log('test ',req.cookies.user_sid)
-        res.sendFile(__dirname + '/public_pause/dashboard.html');
+        res.sendFile(__dirname + '/public_pause/about.html');
     } else {
         res.redirect('/login');
     }
