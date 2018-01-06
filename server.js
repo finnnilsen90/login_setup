@@ -10,7 +10,9 @@ var path = require('path');
 // invoke an instance of express application.
 var app = express();
 
-app.use(express.static(path.join(__dirname + '/public_pause/javascript')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/images')));
+app.use('/dashboard', express.static(path.join(__dirname, 'public/app')));
 
 // set our application port
 app.set('port', 9000);
@@ -57,7 +59,6 @@ var sessionChecker = (req, res, next) => {
     }    
 };
 
-
 // route for Home-Page
 app.get('/', sessionChecker, (req, res) => {
     res.redirect('/login');
@@ -67,7 +68,7 @@ app.get('/', sessionChecker, (req, res) => {
 // route for user signup
 app.route('/signup')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public_pause/signup.html');
+        res.sendFile(__dirname + '/public/signup.html');
     })
     .post((req, res) => {
         User.create({
@@ -89,7 +90,7 @@ app.route('/signup')
 // route for user Login
 app.route('/login')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public_pause/login.html');
+        res.sendFile(__dirname + '/public/login.html');
     })
     .post((req, res) => {
         var username = req.body.username,
@@ -117,7 +118,7 @@ app.get('/dashboard', (req, res) => {
         console.log('path ', req.session.cookie.path)
         console.log('test ',req.session.user)
         console.log('test ',req.cookies.user_sid)
-        res.sendFile(__dirname + '/public_pause/about.html');
+        res.sendFile(__dirname + '/public/about.html');
     } else {
         res.redirect('/login');
     }
