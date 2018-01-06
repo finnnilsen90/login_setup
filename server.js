@@ -10,9 +10,9 @@ var path = require('path');
 // invoke an instance of express application.
 var app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public/images')));
-app.use('/dashboard', express.static(path.join(__dirname, 'public/app')));
+app.use(express.static(path.join(__dirname, 'public_main')));
+app.use(express.static(path.join(__dirname, 'public_main/images')));
+app.use('/dashboard', express.static(path.join(__dirname, 'public_main/app')));
 
 // set our application port
 app.set('port', 9000);
@@ -52,6 +52,7 @@ app.use((req, res, next) => {
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
+    console.log('session checked')
     if (req.session.user && req.cookies.user_sid) {
         res.redirect('/dashboard');
     } else {
@@ -68,7 +69,7 @@ app.get('/', sessionChecker, (req, res) => {
 // route for user signup
 app.route('/signup')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/signup.html');
+        res.sendFile(__dirname + '/public_main/signup.html');
     })
     .post((req, res) => {
         User.create({
@@ -90,7 +91,7 @@ app.route('/signup')
 // route for user Login
 app.route('/login')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/login.html');
+        res.sendFile(__dirname + '/public_main/login.html');
     })
     .post((req, res) => {
         var username = req.body.username,
@@ -104,7 +105,12 @@ app.route('/login')
                 console.log('incorect password: ',password)
                 res.redirect('/login');
             } else {
+                console.log('user authenticated')
                 req.session.user = user.dataValues;
+                console.log(req.session.user);
+                console.log('route => ',req.route.path)
+                console.log('cookie => ',req.session)
+                // console.log('cookie => ',req.session)
                 res.redirect('/dashboard');
             }
         });
@@ -113,13 +119,12 @@ app.route('/login')
 
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
-    console.log(req.session.user)
+    // console.log('user => ', req.session.user)
+    // console.log('user_sid => ',req.cookies.user_sid)
     if (req.session.user && req.cookies.user_sid) {
-        console.log('path ', req.session.cookie.path)
-        console.log('test ',req.session.user)
-        console.log('test ',req.cookies.user_sid)
-        res.sendFile(__dirname + '/public/about.html');
+        res.sendFile(__dirname + '/public_main/about.html');
     } else {
+        console.log('session not started')
         res.redirect('/login');
     }
 });
